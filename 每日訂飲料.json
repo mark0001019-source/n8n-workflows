@@ -1,0 +1,685 @@
+{
+  "name": "每日訂飲料_1",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "新人新加入，要有名單\n",
+        "height": 384,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        -352
+      ],
+      "id": "5da6f83d-278c-4638-b020-ae0f0c73a8eb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "formTitle": "訂飲料新名單",
+        "formDescription": "嗨!新人，這是要訂飲料的清單，輸入你的姓名跟mail讓我知道",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "名稱",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "mail",
+              "fieldType": "email",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        -128
+      ],
+      "id": "7b9e20cd-f231-4cbd-adb6-9e87bad90b72",
+      "name": "On form submission",
+      "webhookId": "3d044a67-217b-4847-907a-9f6289e334f2"
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "飲料清單",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -48,
+        -288
+      ],
+      "id": "7cb02e65-34f2-4307-85d4-f8bfae4dd014",
+      "name": "Create spreadsheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A",
+          "mode": "list",
+          "cachedResultName": "飲料清單",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1260619760,
+          "mode": "list",
+          "cachedResultName": "員工名單",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A/edit#gid=1260619760"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -112,
+        576
+      ],
+      "id": "289cf9d5-297a-42fe-9723-1fe0c37449f4",
+      "name": "get_all_user_list",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A",
+          "mode": "list",
+          "cachedResultName": "飲料清單",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1260619760,
+          "mode": "list",
+          "cachedResultName": "員工名單",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A/edit#gid=1260619760"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mail": "={{ $json.mail }}",
+            "名稱": "={{ $json['名稱'] }}"
+          },
+          "matchingColumns": [
+            "mail"
+          ],
+          "schema": [
+            {
+              "id": "名稱",
+              "displayName": "名稱",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mail",
+              "displayName": "mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        -128
+      ],
+      "id": "ff369a38-16ff-4916-8810-fc1863313f06",
+      "name": "Append_new_user",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A",
+          "mode": "list",
+          "cachedResultName": "飲料清單",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14tRF6Juphb2kFr40blhCLpPIKMNtV5BJuO0LkKN_G9A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json['店名(如果拿不定主意，可以在下面選擇，讓AI推薦您)'] }}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        272
+      ],
+      "id": "8b1c9aab-9df3-467d-9c76-42b59f2d74b0",
+      "name": "get_all_drink_list",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "訂購者",
+        "formDescription": "今天想喝什麼呢?",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "店名(如果拿不定主意，可以在下面選擇，讓AI推薦您)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "五十嵐"
+                  },
+                  {
+                    "option": "迷客夏"
+                  },
+                  {
+                    "option": "得正"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "你偏好飲料中有什麼特色？",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "想喝經典又不踩雷的手搖飲"
+                  },
+                  {
+                    "option": "想要健康天然、鮮奶味濃、珍珠Q彈"
+                  },
+                  {
+                    "option": "想喝茶香濃郁、烏龍茶或奶蓋風味層次豐富"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -352,
+        576
+      ],
+      "id": "2f1cf748-56bf-400c-8937-c0770cb12a93",
+      "name": "From_user",
+      "webhookId": "65d8d15c-8ae1-4727-a1ac-c2e9d2166406"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0a4c2bb8-dd46-4010-ba97-43c55d4f0655",
+              "leftValue": "={{ $json['店名(如果拿不定主意，可以在下面選擇，讓AI推薦您)'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        448
+      ],
+      "id": "fc71ae32-945e-4633-89d5-0636b48e69a6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "# **這是什麼？**  \n每天幫大家自動完成「訂飲料」的流程。\n\n**怎麼進行？**  \n1) 負責訂購的人每天選一家飲料店 → 寄出菜單和點單連結。  \n2) 其他人點連結，填入想喝的飲料。  \n3) 送出後，資料自動寫進今天的訂單表。  \n4) 管理者即時看到總表，不用再人工彙整。\n\n**其他人會收到什麼？**  \n- 一封 Email(電子郵件)（由 Gmail(郵件) 寄出）或訊息，內含專屬連結。  \n- 連結打開就是表單，填一分鐘搞定。\n\n**好處**  \n- 不再來回對帳、抄錯、漏單。  \n- 資料整齊、即時統計、快速結帳。  \n",
+        "height": 688,
+        "width": 2352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -504,
+        64
+      ],
+      "id": "8e99c90f-de25-462f-8445-e5dba25b6b74",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2c022c67-c098-4d83-9530-1a140eb08942",
+              "name": "店名(如果拿不定主意，可以在下面選擇，讓AI推薦您)",
+              "value": "={{ $json['你偏好飲料中有什麼特色？'] === \"想喝經典又不踩雷的手搖飲\" ? \"五十嵐\" : ($json['你偏好飲料中有什麼特色？'] === \"想要健康天然、鮮奶味濃、珍珠Q彈\" ? \"迷客夏\" : ($json['你偏好飲料中有什麼特色？'] === \"想喝茶香濃郁、烏龍茶或奶蓋風味層次豐富\" ? \"得正\" : \"\")) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        272
+      ],
+      "id": "65b8936f-3032-499b-b864-39d663620c30",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        736,
+        432
+      ],
+      "id": "f774787a-31a9-4578-a47c-cb27b0091759",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.mail }}",
+        "subject": "test",
+        "message": "=<table border=\"1\" cellpadding=\"6\" cellspacing=\"0\" style=\"border-collapse:collapse;width:100%;font-family:Arial, Helvetica, 'Microsoft JhengHei', sans-serif;font-size:14px;\">\n  <thead>\n    <tr>\n      <th>品名</th>\n      <th>中杯(元)</th>\n      <th>大杯(元)</th>\n    </tr>\n  </thead>\n  <tbody>\n    {{ $json.data.map(r => `\n      <tr>\n        <td style=\"border:1px solid #ccc;\">${r[\"品名\"]}</td>\n        <td style=\"border:1px solid #ccc;\">${r[\"中杯(元)\"]}</td>\n        <td style=\"border:1px solid #ccc;\">${r[\"大杯(元)\"]}</td>\n      </tr>\n    `).join(\"\") }}\n  </tbody>\n</table>\n\n<div style=\"margin-top:12px;\">\n  <a href=\"https://Mark0001019-n8n-free.hf.space/form-test/471d24b7-e848-4945-bd1e-4c8154beaa09\" target=\"_blank\">\n    https://Mark0001019-n8n-free.hf.space/form-test/64802d79-61d2-4e46-992b-23e08178f2b7\n  </a>\n</div>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1216,
+        528
+      ],
+      "id": "22192613-8165-488c-937e-9e924d3fee56",
+      "name": "Send a message",
+      "webhookId": "4438758d-eabb-455a-98e9-d3eb9a3700d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "MViaaxcgCGmwpC4U",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        496,
+        272
+      ],
+      "id": "35f64d4f-31e7-43ff-a94b-4b0ad5739924",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "={{ DateTime.now().toISODate() }}_order",
+        "sheetsUi": {
+          "sheetValues": [
+            {
+              "title": "訂單"
+            }
+          ]
+        },
+        "options": {
+          "locale": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1216,
+        368
+      ],
+      "id": "c5c7289e-0bfc-4cc8-aebe-2802afc653be",
+      "name": "Create_today_order",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create_today_order').item.json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Create_today_order').item.json.sheets[0].properties.sheetId }}",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "名稱",
+              "displayName": "名稱",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "信箱",
+              "displayName": "信箱",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "品名",
+              "displayName": "品名",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1632,
+        368
+      ],
+      "id": "b318b9aa-b44b-4471-8b0d-521230486015",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vE6pNvvhsrqZztv3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"名稱\": \"\",\n  \"信箱\": \"\",\n  \"品名\": \"\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        368
+      ],
+      "id": "a50690f7-5522-4f61-b70d-235fb835e208",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        944,
+        448
+      ],
+      "id": "4d4d2364-4702-4504-baee-e0c7e18d6bf6",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append_new_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create spreadsheet": {
+      "main": [
+        []
+      ]
+    },
+    "From_user": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "get_all_user_list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_all_drink_list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "get_all_drink_list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_all_drink_list": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_all_user_list": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create_today_order": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Create_today_order",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ca624eed-71dd-43e6-9466-361425b63cb2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e"
+  },
+  "id": "tfHwDwNQZltI80Gp",
+  "tags": []
+}
